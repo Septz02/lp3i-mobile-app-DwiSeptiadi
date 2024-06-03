@@ -3,6 +3,6 @@ import registerReducer from './reducer/registerReducer'
 
 export default configureStore({
   reducer: {
-    register: registerReducer,
+    register: registerReducer
   },
 })

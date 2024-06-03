@@ -1,46 +1,73 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import { CustomeInput, FbButton } from "../../components";
 import { useSelector, useDispatch } from "react-redux";
-import { setfirstName, setsureName } from "../../store/reducer/registerReducer";
+import { setFirstName, setSureName } from "../../store/reducer/registerReducer";
 
-export default function RegisterInputNameScreen() {
-  const register = useSelector((state) => state.register.formInput);
-  const dispatch = useDispatch();
+export default function RegisterInputNameScreen({ navigation }) {
+    const register = useSelector((state) => state.register.formInput);
+    const dispatch = useDispatch();
 
-  return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.textHeader}>What's your name?</Text>
-      <Text>Enter the name you use in real life.</Text>
+    const onNextInput = () => {
+        try {
+            if (
+                register.firstName.trim().length === 0
+            ) {
+                throw Error("First name is required");
+            }
 
-      <View style={styles.containerInput}>
-        <CustomeInput
-          value={register.firstName}
-          onChangeText={(value) => dispatch(setfirstName(value))}
-          label="First name"
-        />
+            if (
+                register.sureName.trim().length === 0
+            ) {
+                throw Error("Sure name is required");
+            }
 
-        <CustomeInput
-          value={register.sureName}
-          onChangeText={(value) => dispatch(setsureName(value))}
-          label="Surename"
-        />
-      </View>
+            navigation.navigate("RegisterDate");
+        } catch (err) {
+            Alert.alert("Error", err.message, [
+                {
+                    text: "OK",
+                    onPress: () => {
+                        console.log("ERR");
+                    },
+                },
+            ]);
+        }
+    };
 
-      <FbButton title="Next" />
-    </ScrollView>
-  );
+    return (
+        <ScrollView style={styles.container}>
+            <Text style={styles.textHeader}>What's your name?</Text>
+            <Text>Enter the name you use in real life.</Text>
+
+            <View style={styles.containerInput}>
+                <CustomeInput
+                    value={register.firstName}
+                    onChangeText={(value) => dispatch(setFirstName(value))}
+                    label="First name"
+                />
+
+                <CustomeInput
+                    value={register.sureName}
+                    onChangeText={(value) => dispatch(setSureName(value))}
+                    label="Surename"
+                />
+            </View>
+
+            <FbButton title="Next" onPress={onNextInput} />
+        </ScrollView>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 15,
-  },
-  containerInput: {
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  textHeader: {
-    fontWeight: "700",
-    fontSize: 24,
-  },
+    container: {
+        padding: 15,
+    },
+    containerInput: {
+        marginTop: 20,
+        marginBottom: 20,
+    },
+    textHeader: {
+        fontWeight: "700",
+        fontSize: 24,
+    },
 });
