@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const counterSlice = createSlice({
+export const registerSlice = createSlice({
     name: "register",
     initialState: {
         formInput: {
-            name: null,
+            firstName: null,
+            sureName: null,
             gender: null,
             email: null,
             password: null,
@@ -17,7 +18,10 @@ export const counterSlice = createSlice({
     },
     reducers: {
         setName: (state, action) => {
-            formInput.name = action.payload;
+            formInput.firstName = action.payload;
+        },
+        setsureName: (state, action) => {
+            formInput.sureName = action.payload;
         },
         setGender: (state, action) => {
             formInput.gender = action.payload;
@@ -34,6 +38,6 @@ export const counterSlice = createSlice({
     },
 });
 
-export const { setName, setBirthDate, setEmail, setGender, setPassword } = counterSlice.actions
+export const { setfirstName, setsureName, setBirthDate, setEmail, setGender, setPassword } = registerSlice.actions
 
-export default counterSlice.reducer;
+export default registerSlice.reducer;

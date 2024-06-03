@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 
-export const CustomeInput = ({ value, label }) => {
+export const CustomeInput = ({ value, label, onChangeText }) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -11,6 +11,7 @@ export const CustomeInput = ({ value, label }) => {
         style={isActive ? styles.inputActive : styles.input}
         onFocus={() => setIsActive(true)}
         onBlur={() => setIsActive(false)}
+        onChangeText={onChangeText}
         value={value}
       />
     </View>
