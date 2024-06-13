@@ -14,6 +14,8 @@ import { MyButton, FbButton } from '../../components'
 import { ICFacebook, ICGoogle } from '../../../assets'       
 import React from 'react'
 import ApiLib from "../../lib/ApiLib"
+import { useDispatch } from 'react-redux'
+import { setId, setFirstName, setSureName } from '../../store/reducer/authReducer'
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -21,6 +23,8 @@ export default function LoginScreen({navigation}){
   const [email, onChangeEmail] = React.useState('')
   const [pasword, onChangePassword] = React.useState('')
   const [loading, setLoading] = React.useState(false)
+  const dispatch = useDispatch()
+
   const onSubmitLogin =async ()=>{
     setLoading(true)
     try{
@@ -44,7 +48,12 @@ export default function LoginScreen({navigation}){
       )
       setLoading(false)
       if(res.data.document != null){
-        navigation.replace("Home")
+        console.log('data', res.data.document._id)
+        dispatch(setId(res.data.document._id))
+        dispatch(setFirstName(res.data.document.firstName))
+        dispatch(setSureName(res.data.document.sureName))
+
+        navigation.replace("Main")
       }else{
         Alert.alert('Error', "Username & password tidak sesuai", [
           {text: 'OK', onPress: () => {

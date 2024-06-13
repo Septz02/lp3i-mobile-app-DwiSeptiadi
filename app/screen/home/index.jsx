@@ -16,17 +16,21 @@ export default function HomeScreen(){
   const filter = useSelector((state) => state.users.formFilter)
 
   const fetchData = async ()=>{
-    const res = await ApiLib.post('/action/find',{
-      "dataSource": "Cluster0",
-      "database": "app-lp3i-mobile",
-      "collection": "users",
-      "filter": filter
-    })
+    try{
+      const res = await ApiLib.post('/action/find',{
+        "dataSource": "Cluster0",
+        "database": "app-lp3i-mobile",
+        "collection": "users",
+        "filter": filter
+      })
 
-    if(res.data?.documents){
-      dispatch(setData(res.data.documents))
-    }else{
-      dispatch(clearData())
+      if(res.data?.documents){
+        dispatch(setData(res.data.documents))
+      }else{
+        dispatch(clearData())
+      }
+    }catch(err){
+      console.log(err)
     }
   }
 
